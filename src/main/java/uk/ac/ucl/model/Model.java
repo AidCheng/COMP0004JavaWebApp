@@ -2,11 +2,18 @@ package uk.ac.ucl.model;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.InvalidParameterException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 
 public class Model {
+    private static final String TARGET_FILE_PATH = "data/tempData.csv";
     private static final String[] OPTIONAL_COLUMNS_TO_FILTER = {"BIRTHPLACE","CITY","ETHNICITY","GENDER","RACE","STATE","MARITAL"};
+    private static final String FILE_PATH_PREFIX = "user/";
+    private static final String FILE_PATH_SUFFIX = ".json";
     static final String JSON_PREFIX_BLOCK =
             """
             {
@@ -20,8 +27,8 @@ public class Model {
     private DataFrame newFrame = new DataFrame();
 
 
-    public void readFile(String pathName){
-        DataLoader newLoader = new DataLoader(pathName);
+    public void readFile(){
+        DataLoader newLoader = new DataLoader(TARGET_FILE_PATH);
         newFrame = newLoader.getLoadedData();
     }
 
@@ -100,6 +107,7 @@ public class Model {
 
     public void saveAsJson(String newFilePath) {
         List<String> patients = newFrame.getPatientsInJsonFormat();
+        newFilePath = FILE_PATH_PREFIX + newFilePath + FILE_PATH_SUFFIX;
         try(FileWriter fileWriter = new FileWriter(newFilePath)){
             fileWriter.write(JSON_PREFIX_BLOCK);
             for(String patient: patients){
@@ -119,6 +127,45 @@ public class Model {
         return newFrame.getAgeGroups();
     }
 
+    public void deletePatientAndUpdateModel(int id){
+        deletePatient(id);
+        readFile();
+    }
+
+    public void addPatientAndUpdateModel(HashMap<String, String> patientInfo){
+        checkInput(patientInfo);
+        addPatient(patientInfo);
+        readFile();
+    }
+
+    private void checkInput(HashMap<String, String> patientInfo){
+        checkName(patientInfo);
+        checkDateInput(patientInfo.get("BIRTHDATE"));
+        checkDateInput(patientInfo.get("DEATHDATE"));
+    }
+
+    private void checkName(HashMap<String, String> patientInfo) {
+        if (patientInfo.get("FIRST").isEmpty() && patientInfo.get("LAST").isEmpty()){
+            throw new InvalidParameterException();
+        }
+    }
+
+    private void checkDateInput(String dateString) throws DateTimeParseException {
+        if (!dateString.isEmpty()) {
+            // check date input
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate.parse(dateString, formatter);
+        }
+    }
+
+
+    public void editPatientAndUpdateModel(int id, String column, String newValue){
+        if(column.equals("BIRTHDATE") || column.equals("DEATHDATE")){
+            checkDateInput(newValue);
+        }
+        editPatient(id, column, newValue);
+        readFile();
+    }
 
 }
 

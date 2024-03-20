@@ -25,21 +25,21 @@ public class ModelFactory
       // Note where the data file is stored in the data directory,
       // and the pathname to locate it.
       // The data should be read the file once, not every time the model is accessed!
-      model.readFile(TARGET_FILE_PATH);
-      System.out.println("read a new model");
+      model.readFile();
     }
     return model;
   }
 
-  public static void initFileBase(String file) throws IOException {
+  public static void initFileBase(String file){
     if (file == null) {
       return;
     }
+
     String path = getFilePath(file);
     copyFile(path);
     // Read the database after choose the file
     model = new Model();
-    model.readFile(TARGET_FILE_PATH);
+    model.readFile();
   }
 
   private static String getFilePath(String file){
@@ -65,27 +65,4 @@ public class ModelFactory
     }
   }
 
-  public static void deletePatientAndUpdateModel(int id){
-    model.deletePatient(id);
-    updateModel();
-  }
-
-  public static void editPatientAndUpdateModel(int id, String column, String newValue){
-    model.editPatient(id, column, newValue);
-    updateModel();
-  }
-
-  public static void addPatientAndUpdateModel(HashMap<String, String> infoOfPatient){
-    model.addPatient(infoOfPatient);
-    updateModel();
-  }
-
-  private static void updateModel(){
-    // re-read file to update the model
-    model.readFile(TARGET_FILE_PATH);
-  }
-
-  public static void saveFile(String newFilePath) {
-    model.saveAsJson(newFilePath);
-  }
 }

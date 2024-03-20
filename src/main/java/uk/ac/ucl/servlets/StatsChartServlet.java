@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,10 +20,11 @@ public class StatsChartServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Model model = ModelFactory.getModel();
         HashMap<String, Integer> distributionByAge = model.getAgeDistribution();
-        List<String> ageGroups = model.getAgeGroups();
-
-        request.setAttribute("ageGroups", ageGroups);
         request.setAttribute("distributionByAge", distributionByAge);
+
+
+        List<String> ageGroups = model.getAgeGroups();
+        request.setAttribute("ageGroups", ageGroups);
 
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/statschart.jsp");

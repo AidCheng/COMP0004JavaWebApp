@@ -14,10 +14,10 @@ import java.io.IOException;
 
 @WebServlet("/deletepatient.html")
 public class DeletePatientServlet extends HttpServlet {
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("deleteId"));
-        ModelFactory.deletePatientAndUpdateModel(id);
+        Model model = ModelFactory.getModel();
+        model.deletePatientAndUpdateModel(id);
 
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/redirectToMenu.jsp");

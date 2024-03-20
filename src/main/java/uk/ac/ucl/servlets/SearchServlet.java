@@ -19,7 +19,7 @@ import java.util.HashMap;
 @WebServlet("/runsearch.html")
 public class  SearchServlet extends HttpServlet
 {
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
   {
     // Use the model to do the search and put the results into the request object sent to the
     // Java Server Page used to display the results.

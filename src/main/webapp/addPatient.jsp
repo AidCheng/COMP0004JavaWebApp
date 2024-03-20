@@ -20,6 +20,7 @@
     <% } %>
     <input type="submit" value="Save">
 </form>
-<p>*Date format: YYYY-mm-dd</p>
+<p>*First name and last name cannot both be empty</p>
+<p>*Date format: YYYY-MM-DD</p>
 </body>
 </html>

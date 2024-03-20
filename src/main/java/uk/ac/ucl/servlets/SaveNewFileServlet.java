@@ -1,5 +1,6 @@
 package uk.ac.ucl.servlets;
 
+import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
 
 import javax.servlet.RequestDispatcher;
@@ -13,12 +14,10 @@ import java.io.IOException;
 
 @WebServlet("/saveNewFile.html")
 public class SaveNewFileServlet extends HttpServlet {
-    private static final String FILE_PATH_PREFIX = "user/";
-    private static final String FILE_PATH_SUFFIX = ".json";
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String newFilePath = FILE_PATH_PREFIX + request.getParameter("newFileName") + FILE_PATH_SUFFIX;
-        System.out.println(newFilePath);
-        ModelFactory.saveFile(newFilePath);
+        String newFilePath = request.getParameter("newFileName");
+        Model model = ModelFactory.getModel();
+        model.saveAsJson(newFilePath);
 
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/menu.html");

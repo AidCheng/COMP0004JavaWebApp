@@ -29,6 +29,9 @@
       <p>Nothing found</p>
   <%}%>
   </ul>
+  <form action="search.html">
+  <button type="submit">Go Back</button>
+  </form>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>

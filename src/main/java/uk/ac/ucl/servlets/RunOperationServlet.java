@@ -27,9 +27,10 @@ public class RunOperationServlet extends HttpServlet {
     HttpServletResponse response;
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.request = request;
         this.response = response;
+
         String pageInitialised = request.getParameter("pageInitialised");
         request.setAttribute("initialised", false);
 

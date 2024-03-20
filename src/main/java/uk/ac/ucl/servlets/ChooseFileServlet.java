@@ -14,7 +14,6 @@ import java.io.IOException;
 
 @WebServlet("/menu.html")
 public class ChooseFileServlet extends HttpServlet {
-
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String file = request.getParameter("fileOptions");
         ModelFactory.initFileBase(file);

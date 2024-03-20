@@ -21,7 +21,6 @@ import java.util.List;
 @WebServlet("/patientList.html")
 public class ViewPatientListServlet extends HttpServlet
 {
-
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
   {
     // Get the data from the model
